@@ -1,0 +1,49 @@
+---
+title: "Vignette for Package simplin"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{simp_lin}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+$\texttt{simplin}$ provides a function for fast simple linear regression. The package includes two functions $\texttt{sim_lin_R}$ and $\texttt{sim_lin}$. $\texttt{sim_lin}$ is written in $\texttt{Rcpp}$ and intakes two numeric vectors and outputs, in a list, point estimates, standard errors, and 95% confidence intervals for the regression parameters $\beta_0$ and $\beta_1$ as well as the predicted values ($\mathbf{\hat{y}}$) and residuals ($\mathbf{e_i}=\mathbf{y}-\mathbf{\hat{y}}$). $\texttt{sim_lin_R}$ is an $R$ function that checks if input vectors are numeric and of the same length before calling $\texttt{sim_lin}$. 
+
+# Implementation 
+
+```{r setup}
+### Load package
+library(simplin)
+
+### Simulate Data
+x = rnorm(10)
+y = x + rnorm(10)
+
+### Fit Simple Linear Regression Model
+output <- simp_lin_R(x,y)
+
+### Point Estimates
+output[[1]]
+
+### Standard Errors
+output[[2]]
+
+### 95% Confidence Intervals
+### Column 1 => beta_0, Column 2 => beta_1
+output[[3]]
+
+### Predicted Values
+output[[4]]
+
+### Residuals 
+output[[5]]
+```
