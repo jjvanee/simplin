@@ -62,11 +62,14 @@ List simp_lin( NumericVector x, NumericVector y){
   double quant = R::qt( 0.975, n-2, false, false);
   // Store CIs in Matrix
   NumericMatrix coef_CI(2,2);
+  // Label Matrix
+  CharacterVector rows(2); rows[0] = "0.025 %"; rows[1] = "97.5 %";
+  CharacterVector cols(2); cols[0] = "Intercept"; cols[1] = "Slope";
+  // now create an object "dimnms" as a list with rows and cols
+  List dimnms = List::create(rows, cols);
+  // and assign it
+  coef_CI.attr("dimnames") = dimnms;
   // Give row and column names to matrix
-  //CharacterVector col = {"Intercept","Slope"};
-  //CharacterVector row = {"0.975","0.025"};
-  //colnames(coef_CI) = CharacterVector({"I","S"});
-  //rownames(coef_CI) = CharacterVector({"U","L"});
   // Intercept
   coef_CI(0,0) = coef[0] + quant*stde[0];
   coef_CI(1,0) = coef[0] - quant*stde[0];
@@ -74,7 +77,11 @@ List simp_lin( NumericVector x, NumericVector y){
   coef_CI(0,1) = coef[1] + quant*stde[1];
   coef_CI(1,1) = coef[1] - quant*stde[1];
   // List with outputs
-  List lin_out = List::create(coef, stde, coef_CI, pred, resd);
+  List lin_out = List::create(Named("Point.Estimates") = coef, 
+                              Named("Standard.Errors") = stde, 
+                              Named("CI_95%s") = coef_CI, 
+                              Named("Predictions") = pred, 
+                              Named("Residuals") = resd);
   return lin_out;
 }
 

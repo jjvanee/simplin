@@ -31,19 +31,18 @@ y = x + rnorm(10)
 ### Fit Simple Linear Regression Model
 output <- simp_lin_R(x,y)
 
-### Point Estimates
-output[[1]]
+### Point Estimates, order beta_0, beta_1
+output$Point.Estimates
 
 ### Standard Errors
-output[[2]]
+output$Standard.Error
 
 ### 95% Confidence Intervals
-### Column 1 => beta_0, Column 2 => beta_1
-output[[3]]
+output$`CI_95%s`
 
 ### Predicted Values
-output[[4]]
+output$Predictions
 
 ### Residuals 
-output[[5]]
+output$Residuals
 ```
